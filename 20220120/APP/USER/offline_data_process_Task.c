@@ -87,6 +87,7 @@ void report_Task(void *pvParameters)
 					LED1_ON;
 					if(0==make_data_and_report(RS232rev.RevBuf,RS232rev.BufLen,TDSaoMa))
 					{
+						flagReport_ing=0;
 						LED1_OFF;delay_microsecond(150*1000);	
 						LED1_ON;delay_microsecond(150*1000);
 						LED1_OFF;delay_microsecond(150*1000);	
@@ -106,6 +107,7 @@ void report_Task(void *pvParameters)
 				LED1_ON;
 				if(0==make_data_and_report_saoma(TDSaoMa))
 				{
+					flagReport_ing=0;			
 						LED1_OFF;delay_microsecond(150*1000);	
 						LED1_ON;delay_microsecond(150*1000);
 						LED1_OFF;delay_microsecond(150*1000);					
@@ -123,6 +125,7 @@ void report_Task(void *pvParameters)
 //			LED1_ON;
 //			if(0==make_data_and_report_io(io_n,value))
 //			{
+			flagReport_ing=0;			
 //					LED1_OFF;delay_microsecond(150*1000);	
 //					LED1_ON;delay_microsecond(150*1000);
 //					LED1_OFF;delay_microsecond(150*1000);					

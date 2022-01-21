@@ -59,7 +59,11 @@ static void delay_microsecond(uint32_t microsecond)
 * PUBLIC FUNCTIONS (全局函数)
 ****************************************************************************************
 */
+char wifi_get_sta_cnt=100;
 
+#define MODE_NORMAL 0
+#define MODE_TOUCHUAN 1
+char flagWifiMode=MODE_NORMAL;  
 /*
 ****************************************************************************************
 * Function: wifi_uartConfig
@@ -285,9 +289,9 @@ void exit_pass_throughMode(void)
 			break;
 		}		
 	}
-	
-	wifi_tx_string((uint8_t *)"+++");
-	wifi_tx_string((uint8_t *)"+++");
+	vTaskDelay(100);
+	//wifi_tx_string((uint8_t *)"+++");
+	//wifi_tx_string((uint8_t *)"+++");
 }
 
 //char wifi_soft_reset(void)
@@ -323,7 +327,7 @@ static char wifi_send_data_tcp(uint16_t dataLen, uint8_t *data)
 
 	wifi_send_cmd((uint8_t *)"AT+CIPMODE=0\r\n");//普通传输模式
 	if(0!=wifi_wait_for_respoend(5000,NULL,1,(uint8_t *)"OK")){
-		wifi_init( );
+	//	wifi_init( );
 		return 1;
 	}	
 
@@ -352,7 +356,7 @@ static char wifi_send_data_tcp_touchuan(uint16_t dataLen, uint8_t *data)
 	
 	wifi_send_cmd((uint8_t *)"AT+CIPMODE=1\r\n");//透传模式，发送完要收到推出透传
 	if(0!=wifi_wait_for_respoend(5000,NULL,1,(uint8_t *)"OK")){
-		wifi_init( );
+		//wifi_init( );
 		return 1;
 	}
 	
@@ -375,6 +379,70 @@ static char wifi_send_data_tcp_touchuan(uint16_t dataLen, uint8_t *data)
 
 
 
+//已经是透传模式，直接发送
+static char wifi_report_data_tcp(uint16_t dataLen, uint8_t *data)
+{
+	if(false==wifi_Flag_TcpIp_Connected)
+		return 1;
+
+	while(flagWifiMode!=MODE_TOUCHUAN)//等待标志位变成透传模式
+	{
+		vTaskDelay(1);
+	}
+	wifi_send_data( data, dataLen );
+//	if(0!=wifi_wait_for_respoend(10000,NULL,1,(uint8_t *)"SEND OK")){
+//		return 3;
+//	}	
+	
+	return 0;
+}
+
+
+static char wifi_mode_to_normal(void)
+{
+	if(false==wifi_Flag_TcpIp_Connected)
+		return 1;
+	if(flagWifiMode==MODE_TOUCHUAN)
+	{
+			exit_pass_throughMode( );
+			wifi_send_cmd((uint8_t *)"AT+CIPMODE=0\r\n");//普通传输模式
+			if(0!=wifi_wait_for_respoend(5000,NULL,2,(uint8_t *)"OK",(uint8_t *)"ERROR")){
+				return 2;
+			}			
+		
+	}
+	flagWifiMode=MODE_NORMAL;
+	return 0;	
+}
+
+
+static char wifi_mode_to_touchuan(void)
+{
+	if(false==wifi_Flag_TcpIp_Connected)
+		return 1;
+	
+	if(flagWifiMode==MODE_NORMAL)
+	{
+		wifi_send_cmd((uint8_t *)"AT+CIPMODE=1\r\n");//透传模式，发送完要收到推出透传
+		if(0!=wifi_wait_for_respoend(5000,NULL,1,(uint8_t *)"OK")){
+			//wifi_init( );
+			return 2;
+		}
+		
+		uint8_t buf[100]={0};
+		sprintf((char *)buf, "AT+CIPSEND\r\n");//sprintf((char *)buf, "AT+CIPSEND=%d\r\n", dataLen);
+		
+		wifi_send_cmd((uint8_t *)buf);
+		if(0!=wifi_wait_for_respoend(5000,NULL,1,(uint8_t *)">")){
+			//wifi_init( );
+			return 3;
+		}		
+	}
+
+	flagWifiMode=MODE_TOUCHUAN;
+	return 0;
+}
+
 char wifi_init(void)
 {
 	exit_pass_throughMode( );
@@ -392,7 +460,8 @@ char wifi_init(void)
 	
 	wifi_send_cmd((uint8_t *)"AT1\r\n");
 	wifi_wait_for_respoend(1000,NULL,1,(uint8_t *)"OK","ERROR");
-
+  
+	flagWifiMode=MODE_NORMAL; //CIPMODE=0 
 	return 0;
 }
 
@@ -406,6 +475,9 @@ char wifi_init(void)
 char wifi_connet_ap(uint8_t *ssid,uint8_t *pwd)
 {
 	xSemaphoreTake( Semaphore_wifi, portMAX_DELAY );
+	
+	wifi_mode_to_normal( );
+	
 	uint8_t buf[100]={"AT+CWJAP="};
 	strcat((char *)buf,"\"");
 	strcat((char *)buf,(const char *)ssid);
@@ -434,6 +506,8 @@ char wifi_connet_ap(uint8_t *ssid,uint8_t *pwd)
  char wifi_connet_server(uint8_t* tppe,uint8_t *remote_ip,int remote_port)
 {
 	xSemaphoreTake( Semaphore_wifi, portMAX_DELAY );
+	
+	wifi_mode_to_normal( );
 
 	char buf[100]={0};
 	sprintf(buf,"AT+CIPSTART=\"%s\",\"%s\",%d\r\n",tppe,remote_ip,remote_port);
@@ -523,7 +597,7 @@ char wifi_http_data_report(char TongDao_num,uint8_t *TongDaon,int TDCiShu,uint8_
 	MY_DEBUG_TX(body,strlen((char *)body));
 
 	//char ret= wifi_send_data_tcp(strlen((char *)R_BUF), (uint8_t *)R_BUF);
-	char ret= wifi_send_data_tcp_touchuan(strlen((char *)body), (uint8_t *)body);//要手动推出透传
+	char ret= wifi_report_data_tcp(strlen((char *)body), (uint8_t *)body);//已经在透出模式下，直接发送
 	if(ret==0)
 	{
 		MY_PRINT("\r\n#########################wifi####################################\r\n");
@@ -533,6 +607,7 @@ char wifi_http_data_report(char TongDao_num,uint8_t *TongDaon,int TDCiShu,uint8_
 			if(strstr((const char *)wifi_rev.RevBuf,(const char *)"\"ChengGong\":true"))
 			{
 				MY_PRINT("\r\nwifi:数据更新succeed\r\n");
+				wifi_get_sta_cnt=0;//检测WIFI状态标志清零，从头再计数
 			}
 			else
 			{
@@ -545,11 +620,11 @@ char wifi_http_data_report(char TongDao_num,uint8_t *TongDaon,int TDCiShu,uint8_
 		}
 			
 	}
-	exit_pass_throughMode( );
+	//exit_pass_throughMode( );
 	//free(R_BUF);
 	free(body);
 	xSemaphoreGive( Semaphore_wifi );
-	vTaskDelay(1000);
+	vTaskDelay(100);
 	return ret;	
 	
 	
@@ -572,12 +647,12 @@ char wifi_http_check_firmware(int BanBenID,int XBanBenID,int *o_BanBenID,int *o_
 	char R_BUF[1024]={0};
 	sprintf(R_BUF,"GET %s?JKName=2051&ID=0&SBBH=%s&SWJType=1&BanBenID=%d&XBanBenID=%d HTTP/1.1\r\nHost: %s\r\nConnection: keep-alive\r\n\r\n",
 										                                                        URL,http_key.SBBH,BanBenID,XBanBenID,SERVER_IP);
-	char ret= wifi_send_data_tcp(strlen((char *)R_BUF), (uint8_t *)R_BUF);
+	char ret= wifi_report_data_tcp(strlen((char *)R_BUF), (uint8_t *)R_BUF);
 	if(ret==0)
 	{
-		if(0==wifi_wait_for_respoend(20000,NULL,1,(uint8_t *)"+IPD"))
+		MY_PRINT("\r\n#########################wifi####################################\r\n");
+		if(0==wifi_wait_for_respoend(20000,NULL,1,(uint8_t *)"HTTP/1.1 200 OK"))//if(0==wifi_wait_for_respoend(20000,NULL,1,(uint8_t *)"+IPD"))
 		{
-			MY_PRINT("\r\n#########################wifi####################################\r\n");
 			if(strstr((const char *)wifi_rev.RevBuf,(const char *)"\"ChengGong\":true"))
 			{
 				MY_PRINT("\r\n2051 获得服务器固件版本成功\r\n");
@@ -620,14 +695,14 @@ static char wifi_http_get_2052(int BanBenHaoId,char * IsSWJ,int CiShu)
 	char R_BUF[1024]={0};	
 	sprintf(R_BUF,"GET %s?JKName=2052&ID=0&SBBH=%s&BanBenHaoId=%d&IsSWJ=%s&CiShu=%d HTTP/1.1\r\nHost: %s\r\nConnection: keep-alive\r\n\r\n",
 	                                                                       URL,http_key.SBBH,BanBenHaoId,IsSWJ,CiShu,SERVER_IP);
-	char ret= wifi_send_data_tcp(strlen((char *)R_BUF), (uint8_t *)R_BUF);
+	char ret= wifi_report_data_tcp(strlen((char *)R_BUF), (uint8_t *)R_BUF);
 	if(ret!=0)
 	{
 		return ret;
 	}
 	else
 	{
-		if(0==wifi_wait_for_respoend(20000,NULL,1,(uint8_t *)"+IPD"))
+		if(0==wifi_wait_for_respoend(20000,NULL,1,(uint8_t *)"HTTP/1.1 200 OK"))//if(0==wifi_wait_for_respoend(20000,NULL,1,(uint8_t *)"+IPD"))
 		{
 			MY_DEBUG_TX( (unsigned char *)wifi_rev.RevBuf, wifi_rev.BufLen );		
 			if(NULL==strstr((const char *)wifi_rev.RevBuf,"\"ChengGong\":true"))
@@ -735,8 +810,9 @@ bool  wifi_tcpip_get_connection_status(uint8_t *sta )
 {
     uint8_t result;
     xSemaphoreTake( Semaphore_wifi, portMAX_DELAY );
+	
+	  wifi_mode_to_normal( );
 
-   
 		wifi_send_cmd((uint8_t *)"AT+CIPSTATUS\r\n");
 		if(0!=wifi_wait_for_respoend(1000,NULL,2,(uint8_t *)"\r\nSTATUS:",(uint8_t *)"+CIPSTATUS:")) 
 		{
@@ -779,28 +855,7 @@ bool  wifi_tcpip_get_connection_status(uint8_t *sta )
 }
 
 
-bool wifi_ping(uint8_t *remote_ip)
-{
-	
-	xSemaphoreTake( Semaphore_wifi, portMAX_DELAY );	
 
-	char buf[50]={0};//"AT+PING="8.134.112.231"\r\n"
-	sprintf(buf,"AT+PING=\"%s\"\r\n",remote_ip);
-	
-	wifi_send_cmd((uint8_t *)buf);	
-	uint8_t resp_num=0;
-	char ret=wifi_wait_for_respoend(5000,&resp_num,2,(uint8_t *)"OK",(uint8_t *)"ERROR");
-	if(0==ret&&resp_num==1)
-	{
-		xSemaphoreGive( Semaphore_wifi );
-		return true;		
-	}
-	else
-	{
-		xSemaphoreGive( Semaphore_wifi );
-		return false;		
-	}
-}
 
 
 ////#define   WIFISSID      "Moweihao-iPhone"
@@ -808,132 +863,6 @@ bool wifi_ping(uint8_t *remote_ip)
 ////#define   SERVER_IP     "8.134.112.231"   
 ////#define   SERVER_PORT   8099 
 ////#define   URL           "/ShuJu/QingQiu"
-
-//TYPE_WIFI_STA _Wifi_Sta={0};
-//void network_status_check_wifi_Task(void *pvParameters)
-//{
-//	char Flag=0;
-//	
-//	MY_PRINT("network_status_check_wifi_Task coming!!\r\n");
-//	wifi_init( );
-//	
-////	if(0==wifi_connet_ap((uint8_t *)WIFISSID,(uint8_t *)WIFIPWD)) 
-////	{
-////		MY_PRINT("wifi_connet_ap succeed\r\n");
-////		if(0==wifi_connet_server((uint8_t *)"TCP",(uint8_t *)SERVER_IP,SERVER_PORT)) 
-////		{
-////			MY_PRINT("wifi_connet_server succeed\r\n");
-////		}
-////	}
-////	else
-////	{
-////		MY_PRINT("wifi_connet_ap fail\r\n");
-////	}
-
-//	//vTaskResume(master_rev_485dev_data_handle_TaskHandle);//唤醒master_rev_485dev_data_handle_Task
-//	int report_BanBenID;
-//	int report_XBanBenID;
-//	int o_BanBenID=-1;//服务器上的固件版本号 -1表示不需要更新
-//	int o_XBanBenID=-1;//服务器上的固件版本号
-//	int cnt=0;
-//	
-//	_Wifi_Sta.sta=0;//0断网  1未连接AP  2连接了AP未连接服务器  3ping通
-//	char ping_cnt=0;
-//	while(1)
-//	{
-//		if(++ping_cnt>=6)
-//		{
-//			ping_cnt=0;
-//			 if(true==wifi_ping((uint8_t *)SERVER_IP))//4*6S ping一次， ping太频繁还回复ERR
-//			 {
-//				 _Wifi_Sta.sta=3;
-//			 }
-//			 else
-//			 {
-//					 _Wifi_Sta.sta=0;//断网
-//			 }			
-//		}
-
-
-//			if(_Wifi_Sta.sta == 2 ) // 断开与服务器连接，需要重新连接服务器
-//			{
-//				//MY_PRINT("\r\nwifi:wifi broken server\r\n");
-//				//if(flagNetWorkDev==DEV_WIFI){
-//				//		LED2_OFF;
-//				//}
-//				
-//				while(wifi_connet_server((uint8_t *)"TCP",(uint8_t *)SERVER_IP,SERVER_PORT))
-//				{
-//					vTaskDelay(500);
-//				}
-//				_Wifi_Sta.sta = 3;
-//				//goto Check_NetSate;               //重新跳转到网络检测部分，检测是否连接了有效AP
-//			}	
-//			else if( _Wifi_Sta.sta == 0 ||_Wifi_Sta.sta == 1) // 断开AP连接，需要重新连接AP
-//			{
-//        while(wifi_connet_ap((uint8_t *)WIFISSID,(uint8_t *)WIFIPWD))
-//        {
-//          vTaskDelay(300);
-//					
-//					if(Flag==0)//重连失败就唤醒4G任务，启用4G上网
-//					{
-//						Flag=1;
-//						vTaskResume(network_status_check_4g_TaskHandle);//add 唤醒4G网络任务
-//					}
-//					MY_PRINT("\r\nwifi:wifi broken ap\r\n");
-//					//if(flagNetWorkDev==DEV_WIFI){
-//					//	LED1_OFF;
-//					//}
-//        }		
-//				_Wifi_Sta.sta = 2;//2连接了AP未连接服务器
-//				Flag=0;;	
-//				//vTaskSuspend(network_status_check_4g_TaskHandle);//add 挂起4G网络任务
-//			}
-//			else if(_Wifi_Sta.sta == 3)
-//			{
-//				vTaskSuspend(network_status_check_4g_TaskHandle);//add 挂起4G网络任务
-//				MY_PRINT("\r\nwifi:wifi online\r\n");
-//				if(flagNetWorkDev==DEV_WIFI)
-//				{
-//					if(++cnt>=15*15)//4S*15*15检测一次
-//					{
-//						cnt=0;
-//						//定期询问服务器的固件版本
-//						if(FW485ID==-1)
-//							report_BanBenID=http_key.BanBenID;
-//						else
-//							report_BanBenID=FW485ID;
-//						if(FW232ID==-1)
-//							report_XBanBenID=http_key.XBanBenID;
-//						else
-//							report_XBanBenID=FW232ID;
-//						if(0==wifi_http_check_firmware(report_BanBenID,report_XBanBenID,&o_BanBenID,&o_XBanBenID))
-//						{
-//							if(o_BanBenID!=-1)//上位机需要更新
-//							{
-//								MY_PRINT("\r\nWIFI 上位机需要更新\r\n");
-//								xEventGroupSetBits(firmware_event_group, GET_NEW_485FIRMWARE_FROM_SERVER);
-//								xTaskNotify( server_data_process_TaskHandle, o_BanBenID,eSetValueWithOverwrite); //覆盖写入
-//								
-//							}
-//							else if(o_XBanBenID!=-1)//下位机需要更新
-//							{			
-//								MY_PRINT("\r\nWIFI 下位机需要更新\r\n");
-//								xEventGroupSetBits(firmware_event_group, GET_NEW_232FIRMWARE_FROM_SERVER);
-//								xTaskNotify( server_data_process_TaskHandle, o_XBanBenID,eSetValueWithOverwrite); //覆盖写入				
-//							}						
-//						}
-//						cnt=0;
-//					}					
-//				}
-//			}
-//		
-//		vTaskDelay(1000*4);//不能空循环
-//	}
-//}
-
-
-
 TYPE_WIFI_STA _Wifi_Sta={0};
 void network_status_check_wifi_Task(void *pvParameters)
 {
@@ -941,19 +870,6 @@ void network_status_check_wifi_Task(void *pvParameters)
 	
 	MY_PRINT("network_status_check_wifi_Task coming!!\r\n");
 	wifi_init( );
-//	if(0==wifi_connet_ap((uint8_t *)WIFISSID,(uint8_t *)WIFIPWD)) 
-//	{
-//		MY_PRINT("wifi_connet_ap succeed\r\n");
-//		if(0==wifi_connet_server((uint8_t *)"TCP",(uint8_t *)SERVER_IP,SERVER_PORT)) 
-//		{
-//			MY_PRINT("wifi_connet_server succeed\r\n");
-//		}
-//	}
-//	else
-//	{
-//		MY_PRINT("wifi_connet_ap fail\r\n");
-//		
-//	}
 
 	//vTaskResume(master_rev_485dev_data_handle_TaskHandle);//唤醒master_rev_485dev_data_handle_Task
 	int report_BanBenID;
@@ -963,12 +879,19 @@ void network_status_check_wifi_Task(void *pvParameters)
 	int cnt=0;
 	while(1)
 	{
-		Check_NetSate:
+		
 			 //2： ESP8266 Station 已连接 AP，获得 IP 地址
        //3： ESP8266 Station 已建立 TCP 或 UDP 传输
        //4： ESP8266 Station 断开网络连接
        //5： ESP8266 Station 未连接 AP
-			wifi_tcpip_get_connection_status(&_Wifi_Sta.sta);
+		  if(wifi_get_sta_cnt==100||++wifi_get_sta_cnt>=30)
+			{
+				Check_NetSate:
+				wifi_get_sta_cnt=0;
+				
+				wifi_tcpip_get_connection_status(&_Wifi_Sta.sta);
+			
+			
 
 			if(_Wifi_Sta.sta == 2||_Wifi_Sta.sta == 4 ) // 断开与服务器连接，需要重新连接服务器
 			{
@@ -995,11 +918,14 @@ void network_status_check_wifi_Task(void *pvParameters)
 			}
 			else if(_Wifi_Sta.sta == 3)
 			{
+				wifi_mode_to_touchuan( );//进入透传模式
+				
 				vTaskSuspend(network_status_check_4g_TaskHandle);//add 挂起4G网络任务
 				MY_PRINT("\r\nwifi:wifi online\r\n");
 				if(flagNetWorkDev==DEV_WIFI)
 				{
-					if(++cnt>=10*15)//6S10*15检测一次
+					cnt=0;//目前测试，关闭固件检测
+					if(++cnt>=60*15)//1S 60*15检测一次
 					{
 						cnt=0;
 						//定期询问服务器的固件版本
@@ -1031,8 +957,8 @@ void network_status_check_wifi_Task(void *pvParameters)
 					}					
 				}
 			}
-		
-		vTaskDelay(1000*6);//不能空循环
+		}
+		vTaskDelay(1000*1);//不能空循环
 	}
 }
 

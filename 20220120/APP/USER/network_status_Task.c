@@ -114,6 +114,7 @@ void network_status_change_handle_Task(void *pvParameters)
 				if(0==result){
 					 if(length<TDSaoMa_LEN_MAX)//错误的文件
 					 {
+						 MY_PRINT("SD卡数据格式有误\r\n");
 						 offline_data_file_remove(fn_buf);
 					 } 
 					 else

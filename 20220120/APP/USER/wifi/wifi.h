@@ -47,6 +47,9 @@ typedef struct
 	uint8_t sta;
 }TYPE_WIFI_STA;
 extern TYPE_WIFI_STA _Wifi_Sta; 
+
+
+
 /*
 ****************************************************************************************
 * EXTERNAL VARIABLES (外部变量)

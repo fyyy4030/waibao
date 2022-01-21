@@ -992,6 +992,7 @@ void network_status_check_4g_Task(void *pvParameters)
 			
 			if(flagNetWorkDev==DEV_4G)
 			{
+				cnt=0;//目前测试，关闭固件检测
 				if(++cnt>=10*15)//4S*15检测一次服务器版本
 				{	
 					//again:					

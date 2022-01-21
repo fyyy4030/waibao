@@ -86,7 +86,7 @@ I (.\FATFS\integer.h)(0x5AC89334)
 I (.\FATFS\ff.h)(0x5AC89334)
 I (.\FATFS\ffconf.h)(0x61C45BC2)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5EC775F6)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\my_tasks.h)(0x61E94225)
 I (.\FreeRTOS\include\FreeRTOS.h)(0x61C45BC2)
@@ -225,7 +225,7 @@ I (.\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x581CC67B)
 I (.\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x581CC67B)
 I (.\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x581CC67B)
 F (.\USER\led\led.h)(0x61CD0D74)()
-F (.\USER\4G\4G.c)(0x61E94C4E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\4g.o --omf_browse .\objects\4g.crf --depend .\objects\4g.d)
+F (.\USER\4G\4G.c)(0x61EA4BBE)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\4g.o --omf_browse .\objects\4g.crf --depend .\objects\4g.d)
 I (USER\4G\4G.h)(0x61DFFD0F)
 I (.\CMSIS\stm32f4xx.h)(0x619B2AC9)
 I (.\CMSIS\Include\core_cm4.h)(0x581CC64D)
@@ -267,7 +267,7 @@ I (D:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5EC775FC)
 I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5EC775FC)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x61C45BC2)
 I (.\USER\4G\4G.h)(0x61DFFD0F)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5EC775F6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\my_tasks.h)(0x61E94225)
@@ -387,7 +387,7 @@ I (D:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5EC775FC)
 I (.\USER\rtc\rtc.h)(0x61C97933)
 I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\my_tasks.h)(0x61E94225)
 I (.\FreeRTOS\include\FreeRTOS.h)(0x61C45BC2)
@@ -411,8 +411,8 @@ I (.\USER\crc16.h)(0x61C2D577)
 I (.\USER\debug_uart\debug_uart.h)(0x61BC299A)
 I (.\USER\base64\base64.h)(0x61C04156)
 F (.\USER\sd_card\sd_operation.h)(0x61E93948)()
-F (.\USER\wifi\wifi.c)(0x61E93A2F)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\wifi.o --omf_browse .\objects\wifi.crf --depend .\objects\wifi.d)
-I (USER\wifi\wifi.h)(0x61E0CEA6)
+F (.\USER\wifi\wifi.c)(0x61EA4BB2)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\wifi.o --omf_browse .\objects\wifi.crf --depend .\objects\wifi.d)
+I (USER\wifi\wifi.h)(0x61EA3995)
 I (.\CMSIS\stm32f4xx.h)(0x619B2AC9)
 I (.\CMSIS\Include\core_cm4.h)(0x581CC64D)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5EC775FC)
@@ -470,7 +470,7 @@ I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
 I (.\USER\cjson\cjson.h)(0x5DFB18E6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x61C45BC2)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (.\USER\rs232\rs232.h)(0x61E004C4)
 I (.\USER\rs485\rs485.h)(0x61C2FDBE)
 I (.\USER\led\LED.h)(0x61CD0D74)
@@ -482,7 +482,7 @@ I (.\FATFS\diskio.h)(0x6199F7B8)
 I (.\FATFS\integer.h)(0x5AC89334)
 I (.\FATFS\ff.h)(0x5AC89334)
 I (.\FATFS\ffconf.h)(0x61C45BC2)
-F (.\USER\wifi\wifi.h)(0x61E0CEA6)()
+F (.\USER\wifi\wifi.h)(0x61EA3995)()
 F (.\USER\rs485\rs485.c)(0x61DEB602)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\rs485.o --omf_browse .\objects\rs485.crf --depend .\objects\rs485.d)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x61C45BC2)
 I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5EC775FC)
@@ -574,7 +574,7 @@ I (.\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x581CC67B)
 I (.\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x581CC67B)
 F (.\USER\crc16.h)(0x61C2D577)()
 F (.\USER\my_tasks.h)(0x61E94225)()
-F (.\USER\network_status_Task.c)(0x61E94DED)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\network_status_task.o --omf_browse .\objects\network_status_task.crf --depend .\objects\network_status_task.d)
+F (.\USER\network_status_Task.c)(0x61EA3539)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\network_status_task.o --omf_browse .\objects\network_status_task.crf --depend .\objects\network_status_task.d)
 I (USER\my_tasks.h)(0x61E94225)
 I (.\CMSIS\stm32f4xx.h)(0x619B2AC9)
 I (.\CMSIS\Include\core_cm4.h)(0x581CC64D)
@@ -631,7 +631,7 @@ I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
 I (.\USER\cjson\cjson.h)(0x5DFB18E6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5EC775FC)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5EC775F6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\rs232\rs232.h)(0x61E004C4)
@@ -645,7 +645,7 @@ I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5EC77604)
 I (.\FATFS\ff.h)(0x5AC89334)
 I (.\FATFS\ffconf.h)(0x61C45BC2)
 I (.\USER\scanner\scanner.h)(0x61DCE114)
-F (.\USER\offline_data_process_Task.c)(0x61E94507)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\offline_data_process_task.o --omf_browse .\objects\offline_data_process_task.crf --depend .\objects\offline_data_process_task.d)
+F (.\USER\offline_data_process_Task.c)(0x61EA3DC7)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\offline_data_process_task.o --omf_browse .\objects\offline_data_process_task.crf --depend .\objects\offline_data_process_task.d)
 I (USER\my_tasks.h)(0x61E94225)
 I (.\CMSIS\stm32f4xx.h)(0x619B2AC9)
 I (.\CMSIS\Include\core_cm4.h)(0x581CC64D)
@@ -714,7 +714,7 @@ I (USER\makedata.h)(0x61E9391F)
 I (.\USER\cjson\cjson.h)(0x5DFB18E6)
 I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 F (.\USER\firmware_transmit_Task.c)(0x61D50BE6)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\CMSIS\Include -I .\CMSIS -I .\FATFS -I .\STM32F4xx_StdPeriph_Driver\inc -I .\USER -I .\USER\led -I .\USER\debug_uart -I .\USER\rtc -I .\USER\sd_card -I .\USER\rs485 -I .\USER\scanner -I .\USER\4G -I .\USER\wifi -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F -I .\USER\rs232 -I .\USER\cjson -I .\USER\base64 -I .\USER\io-ID:\Keil_v5\Arm\Packs\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="531" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\firmware_transmit_task.o --omf_browse .\objects\firmware_transmit_task.crf --depend .\objects\firmware_transmit_task.d)
 I (USER\my_tasks.h)(0x61E94225)
@@ -783,7 +783,7 @@ I (USER\makedata.h)(0x61E9391F)
 I (.\USER\cjson\cjson.h)(0x5DFB18E6)
 I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\led\LED.h)(0x61CD0D74)
 I (.\USER\debug_uart\debug_uart.h)(0x61BC299A)
@@ -845,7 +845,7 @@ I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
 I (.\USER\cjson\cjson.h)(0x5DFB18E6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5EC775FC)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5EC775F6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\led\LED.h)(0x61CD0D74)
@@ -916,7 +916,7 @@ I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
 I (.\USER\cjson\cjson.h)(0x5DFB18E6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5EC775FC)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5EC775F6)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\led\LED.h)(0x61CD0D74)
@@ -1024,7 +1024,7 @@ I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x61C45BC2)
 I (.\USER\4G\4G.h)(0x61DFFD0F)
 I (.\USER\makedata.h)(0x61E9391F)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5EC775F6)
-I (.\USER\wifi\wifi.h)(0x61E0CEA6)
+I (.\USER\wifi\wifi.h)(0x61EA3995)
 I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x61C45BC2)
 I (.\USER\my_tasks.h)(0x61E94225)
 I (.\FreeRTOS\include\FreeRTOS.h)(0x61C45BC2)
